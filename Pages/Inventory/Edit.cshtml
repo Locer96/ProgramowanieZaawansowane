@@ -1,0 +1,60 @@
+﻿@page
+@model WebApp.Pages.Inventory.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>InventoryItem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="InventoryItem.Id" />
+            <div class="form-group">
+                <label asp-for="InventoryItem.UpdateDate" class="control-label"></label>
+                <input asp-for="InventoryItem.UpdateDate" class="form-control" />
+                <span asp-validation-for="InventoryItem.UpdateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InventoryItem.PC" class="control-label"></label>
+                <input asp-for="InventoryItem.PC" class="form-control" />
+                <span asp-validation-for="InventoryItem.UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InventoryItem.PC" class="control-label"></label>
+                <input asp-for="InventoryItem.PC" class="form-control" />
+                <span asp-validation-for="InventoryItem.PC" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InventoryItem.Display" class="control-label"></label>
+                <input asp-for="InventoryItem.Display" class="form-control" />
+                <span asp-validation-for="InventoryItem.Display" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InventoryItem.Keyboard" class="control-label"></label>
+                <input asp-for="InventoryItem.Keyboard" class="form-control" />
+                <span asp-validation-for="InventoryItem.Keyboard" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InventoryItem.Mouse" class="control-label"></label>
+                <input asp-for="InventoryItem.Mouse" class="form-control" />
+                <span asp-validation-for="InventoryItem.Mouse" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
