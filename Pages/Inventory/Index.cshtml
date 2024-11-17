@@ -14,10 +14,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.InventoryItem[0].UpdateDate)
+                @Html.DisplayNameFor(model => model.InventoryItem[0].UserId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InventoryItem[0].UserId)
+                @Html.DisplayNameFor(model => model.InventoryItem[0].UpdateDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.InventoryItem[0].PC)
@@ -38,10 +38,10 @@
 @foreach (var item in Model.InventoryItem) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.UpdateDate)
+                @Html.DisplayFor(modelItem => item.UserId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserId)
+                @Html.DisplayFor(modelItem => item.UpdateDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PC)

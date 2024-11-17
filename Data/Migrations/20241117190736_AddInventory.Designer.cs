@@ -12,7 +12,7 @@ using WebApp.Data;
 namespace WebApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241112220436_AddInventory")]
+    [Migration("20241117190736_AddInventory")]
     partial class AddInventory
     {
         /// <inheritdoc />
