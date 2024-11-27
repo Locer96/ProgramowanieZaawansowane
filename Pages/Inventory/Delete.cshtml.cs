@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using InventoryApp.Data;
 using InventoryApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventoryApp.Pages.Inventory
 {
+    [Authorize]
     public class DeleteModel : PageModel
     {
         private readonly InventoryApp.Data.ApplicationDbContext _context;
