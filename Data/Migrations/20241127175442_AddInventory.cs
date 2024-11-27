@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace WebApp.Data.Migrations
+namespace InventoryApp.Data.Migrations
 {
     /// <inheritdoc />
     public partial class AddInventory : Migration

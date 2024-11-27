@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using WebApp.Data;
-using WebApp.Models;
+using InventoryApp.Data;
+using InventoryApp.Models;
 
-namespace WebApp.Pages.Inventory
+namespace InventoryApp.Pages.Inventory
 {
     public class DeleteModel : PageModel
     {
-        private readonly WebApp.Data.ApplicationDbContext _context;
+        private readonly InventoryApp.Data.ApplicationDbContext _context;
 
-        public DeleteModel(WebApp.Data.ApplicationDbContext context)
+        public DeleteModel(InventoryApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }

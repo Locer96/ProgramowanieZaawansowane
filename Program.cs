@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using WebApp.Data;
+using InventoryApp.Data;
 
-namespace WebApp
+namespace InventoryApp
 {
     public class Program
     {

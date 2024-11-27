@@ -6,17 +6,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using WebApp.Data;
-using WebApp.Models;
+using InventoryApp.Data;
+using InventoryApp.Models;
 
-namespace WebApp.Pages.Inventory
+namespace InventoryApp.Pages.Inventory
 {
     [Authorize]
     public class IndexModel : PageModel
     {
-        private readonly WebApp.Data.ApplicationDbContext _context;
+        private readonly InventoryApp.Data.ApplicationDbContext _context;
 
-        public IndexModel(WebApp.Data.ApplicationDbContext context)
+        public IndexModel(InventoryApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }

@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using WebApp.Models;
 
-namespace WebApp.Data
+namespace InventoryApp.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
@@ -10,6 +9,6 @@ namespace WebApp.Data
             : base(options)
         {
         }
-        public DbSet<WebApp.Models.InventoryItem> InventoryItem { get; set; } = default!;
+        public DbSet<Models.InventoryItem> InventoryItem { get; set; } = default!;
     }
 }
