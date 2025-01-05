@@ -1,11 +1,12 @@
 ﻿@page
 @model InventoryApp.Pages.Inventory.IndexModel
+@using System.Security.Claims
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Inventory</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -35,32 +36,41 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.InventoryItem) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PC)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Display)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Keyboard)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mouse)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.InventoryItem)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PC)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Display)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Keyboard)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mouse)
+                </td>
+                <td>
+                    @if (item.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Administrator"))
+                    {
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+                        <text> | </text>
+                    }
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                    @if (item.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Administrator"))
+                    {
+                        <text> | </text>
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

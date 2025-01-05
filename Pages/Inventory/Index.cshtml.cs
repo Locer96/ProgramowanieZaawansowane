@@ -21,7 +21,7 @@ namespace InventoryApp.Pages.Inventory
             _context = context;
         }
 
-        public IList<InventoryItem> InventoryItem { get;set; } = default!;
+        public IList<InventoryItem> InventoryItem { get; set; } = default!;
 
         public async Task OnGetAsync()
         {

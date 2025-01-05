@@ -1,5 +1,6 @@
 ﻿@page
 @model InventoryApp.Pages.Inventory.DetailsModel
+@using System.Security.Claims
 
 @{
     ViewData["Title"] = "Details";
@@ -50,6 +51,10 @@
     </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.InventoryItem.Id">Edit</a> |
+    @if (Model.InventoryItem.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Administrator"))
+    {
+        <a asp-page="./Edit" asp-route-id="@Model.InventoryItem.Id">Edit</a>
+        <text> | </text>
+    }
     <a asp-page="./Index">Back to List</a>
 </div>

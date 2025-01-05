@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using InventoryApp.Data;
 using InventoryApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace InventoryApp.Pages.Inventory
 {
@@ -33,9 +34,9 @@ namespace InventoryApp.Pages.Inventory
 
             var inventoryitem = await _context.InventoryItem.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (inventoryitem == null)
+            if (inventoryitem == null || (inventoryitem.UserId != User.FindFirstValue(ClaimTypes.NameIdentifier) && !User.IsInRole("Administrator")))
             {
-                return NotFound();
+                return Forbid();
             }
             else
             {
@@ -55,6 +56,10 @@ namespace InventoryApp.Pages.Inventory
             if (inventoryitem != null)
             {
                 InventoryItem = inventoryitem;
+                if (InventoryItem.UserId != User.FindFirstValue(ClaimTypes.NameIdentifier) && !User.IsInRole("Administrator"))
+                {
+                    return Forbid();
+                }
                 _context.InventoryItem.Remove(InventoryItem);
                 await _context.SaveChangesAsync();
             }
