@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace InventoryApp.Models
 {
     public class InventoryItem
     {
         public int Id { get; set; }
+        [ValidateNever]
         public string UserId { get; set; }
 
         /// <summary>
