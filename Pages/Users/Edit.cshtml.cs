@@ -57,8 +57,11 @@ namespace InventoryApp.Pages.Users
 
 			userInDb.UserName = User.UserName;
 			userInDb.Email = User.Email;
+            userInDb.EmailConfirmed = User.EmailConfirmed;
+            userInDb.PhoneNumber = User.PhoneNumber;
+            userInDb.PhoneNumberConfirmed = User.PhoneNumberConfirmed;
 
-			try
+            try
 			{
 				await _context.SaveChangesAsync();
 			}
