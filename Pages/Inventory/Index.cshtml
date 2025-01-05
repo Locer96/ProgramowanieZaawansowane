@@ -15,62 +15,85 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.InventoryItem[0].UserId)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.UserIdSort">
+                    @Html.DisplayNameFor(model => model.InventoryItem[0].UserId)
+                    @if (Model.CurrentSort == "userId_desc"){ <span>&#x25BC;</span> }
+                    else if (Model.CurrentSort == "") { <span>&#x25B2;</span> }
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InventoryItem[0].UpdateDate)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.UpdateDateSort">
+                    @Html.DisplayNameFor(model => model.InventoryItem[0].UpdateDate)
+                    @if (Model.CurrentSort == "updateDate_desc"){ <span>&#x25BC;</span> }
+                    else if (Model.CurrentSort == "UpdateDate") { <span>&#x25B2;</span> }
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InventoryItem[0].PC)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.PCSort">
+                    @Html.DisplayNameFor(model => model.InventoryItem[0].PC)
+                    @if (Model.CurrentSort == "pc_desc"){ <span>&#x25BC;</span> }
+                    else if (Model.CurrentSort == "PC") { <span>&#x25B2;</span> }
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InventoryItem[0].Display)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.DisplaySort">
+                    @Html.DisplayNameFor(model => model.InventoryItem[0].Display)
+                    @if (Model.CurrentSort == "display_desc"){ <span>&#x25BC;</span> }
+                    else if (Model.CurrentSort == "Display") { <span>&#x25B2;</span> }
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InventoryItem[0].Keyboard)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.KeyboardSort">
+                    @Html.DisplayNameFor(model => model.InventoryItem[0].Keyboard)
+                    @if (Model.CurrentSort == "keyboard_desc"){ <span>&#x25BC;</span> }
+                    else if (Model.CurrentSort == "Keyboard") { <span>&#x25B2;</span> }
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InventoryItem[0].Mouse)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.MouseSort">
+                    @Html.DisplayNameFor(model => model.InventoryItem[0].Mouse)
+                    @if (Model.CurrentSort == "mouse_desc"){ <span>&#x25BC;</span> }
+                    else if (Model.CurrentSort == "Mouse") { <span>&#x25B2;</span> }
+                </a>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.InventoryItem)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpdateDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PC)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Display)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Keyboard)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Mouse)
-                </td>
-                <td>
-                    @if (item.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Administrator"))
-                    {
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
-                        <text> | </text>
-                    }
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
-                    @if (item.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Administrator"))
-                    {
-                        <text> | </text>
-                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                    }
-                </td>
-            </tr>
-        }
+@foreach (var item in Model.InventoryItem) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdateDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Display)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Keyboard)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mouse)
+            </td>
+            <td>
+                @if (item.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Administrator"))
+                {
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+                    <text> | </text>
+                }
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                @if (item.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Administrator"))
+                {
+                    <text> | </text>
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                }
+            </td>
+        </tr>
+}
     </tbody>
 </table>

@@ -13,21 +13,71 @@ using System.Security.Claims;
 
 namespace InventoryApp.Pages.Users
 {
-	[Authorize(Policy = "RequireAdministratorRole")]
-	public class IndexModel : PageModel
-	{
-		private readonly InventoryApp.Data.ApplicationDbContext _context;
+    [Authorize(Policy = "RequireAdministratorRole")]
+    public class IndexModel : PageModel
+    {
+        private readonly InventoryApp.Data.ApplicationDbContext _context;
 
-		public IndexModel(InventoryApp.Data.ApplicationDbContext context)
-		{
-			_context = context;
-		}
+        public IndexModel(InventoryApp.Data.ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
-		public IList<IdentityUser> Users { get; set; } = default!;
+        public IList<IdentityUser> Users { get; set; } = default!;
 
-		public async Task OnGetAsync()
-		{
-			Users = await _context.Users.ToListAsync();
-		}
-	}
+        public string IdSort { get; set; }
+        public string EmailSort { get; set; }
+        public string EmailConfirmedSort { get; set; }
+        public string PhoneNumberSort { get; set; }
+        public string PhoneNumberConfirmedSort { get; set; }
+        public string CurrentSort { get; set; }
+
+        public async Task OnGetAsync(string sortOrder)
+        {
+            IdSort = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            EmailSort = sortOrder == "Email" ? "email_desc" : "Email";
+            EmailConfirmedSort = sortOrder == "EmailConfirmed" ? "emailConfirmed_desc" : "EmailConfirmed";
+            PhoneNumberSort = sortOrder == "PhoneNumber" ? "phoneNumber_desc" : "PhoneNumber";
+            PhoneNumberConfirmedSort = sortOrder == "PhoneNumberConfirmed" ? "phoneNumberConfirmed_desc" : "PhoneNumberConfirmed";
+            CurrentSort = sortOrder;
+
+            var users = from u in _context.Users select u;
+
+            switch (sortOrder)
+            {
+                case "id_desc":
+                    users = users.OrderByDescending(u => u.Id);
+                    break;
+                case "Email":
+                    users = users.OrderBy(u => u.Email);
+                    break;
+                case "email_desc":
+                    users = users.OrderByDescending(u => u.Email);
+                    break;
+                case "EmailConfirmed":
+                    users = users.OrderBy(u => u.EmailConfirmed);
+                    break;
+                case "emailConfirmed_desc":
+                    users = users.OrderByDescending(u => u.EmailConfirmed);
+                    break;
+                case "PhoneNumber":
+                    users = users.OrderBy(u => u.PhoneNumber);
+                    break;
+                case "phoneNumber_desc":
+                    users = users.OrderByDescending(u => u.PhoneNumber);
+                    break;
+                case "PhoneNumberConfirmed":
+                    users = users.OrderBy(u => u.PhoneNumberConfirmed);
+                    break;
+                case "phoneNumberConfirmed_desc":
+                    users = users.OrderByDescending(u => u.PhoneNumberConfirmed);
+                    break;
+                default:
+                    users = users.OrderBy(u => u.Id);
+                    break;
+            }
+
+            Users = await users.AsNoTracking().ToListAsync();
+        }
+    }
 }
