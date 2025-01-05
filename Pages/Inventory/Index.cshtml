@@ -9,7 +9,19 @@
 <h1>Inventory (@Model.TotalItems Total, @Model.UserItems Yours)</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="./Index" asp-route-showOnlyUserItems="@(Model.ShowOnlyUserItems ? "false" : "true")" class="btn btn-secondary">
+        @if (Model.ShowOnlyUserItems)
+        {
+            <text>Show All</text>
+        }
+        else
+        {
+            <text>Show Only Yours</text>
+        }
+    </a>
+</p>
+<p>
+    <a asp-page="Create" class="btn btn-primary">Create New</a>
 </p>
 <table class="table">
     <thead>

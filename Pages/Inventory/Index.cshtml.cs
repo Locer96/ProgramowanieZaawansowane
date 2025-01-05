@@ -32,8 +32,9 @@ namespace InventoryApp.Pages.Inventory
         public string CurrentSort { get; set; }
         public int TotalItems { get; set; }
         public int UserItems { get; set; }
+        public bool ShowOnlyUserItems { get; set; }
 
-        public async Task OnGetAsync(string sortOrder)
+        public async Task OnGetAsync(string sortOrder, bool showOnlyUserItems = false)
         {
             UserIdSort = String.IsNullOrEmpty(sortOrder) ? "userId_desc" : "";
             UpdateDateSort = sortOrder == "UpdateDate" ? "updateDate_desc" : "UpdateDate";
@@ -42,6 +43,7 @@ namespace InventoryApp.Pages.Inventory
             KeyboardSort = sortOrder == "Keyboard" ? "keyboard_desc" : "Keyboard";
             MouseSort = sortOrder == "Mouse" ? "mouse_desc" : "Mouse";
             CurrentSort = sortOrder;
+            ShowOnlyUserItems = showOnlyUserItems;
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             TotalItems = await _context.InventoryItem.CountAsync();
@@ -49,6 +51,11 @@ namespace InventoryApp.Pages.Inventory
 
             IQueryable<InventoryItem> inventoryItemsIQ = from i in _context.InventoryItem
                                                          select i;
+
+            if (showOnlyUserItems)
+            {
+                inventoryItemsIQ = inventoryItemsIQ.Where(i => i.UserId == userId);
+            }
 
             switch (sortOrder)
             {
