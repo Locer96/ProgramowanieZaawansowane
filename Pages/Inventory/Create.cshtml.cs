@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using InventoryApp.Data;
 using InventoryApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace InventoryApp.Pages.Inventory
 {
@@ -32,15 +33,24 @@ namespace InventoryApp.Pages.Inventory
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            var emptyInventoryItem = new InventoryItem();
+
+            if (await TryUpdateModelAsync<InventoryApp.Models.InventoryItem>(emptyInventoryItem, "inventoryitem",
+                item => item.UpdateDate,
+                item => item.PC,
+                item => item.Display,
+                item => item.Keyboard,
+                item => item.Mouse))
             {
-                return Page();
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                emptyInventoryItem.UserId = userId;
+                _context.InventoryItem.Add(emptyInventoryItem);
+                await _context.SaveChangesAsync();
+
+                return RedirectToPage("./Index");
             }
 
-            _context.InventoryItem.Add(InventoryItem);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }

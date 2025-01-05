@@ -17,11 +17,6 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="InventoryItem.UserId" class="control-label"></label>
-                <input asp-for="InventoryItem.UserId" class="form-control" value="@UserManager.GetUserId(User)" readonly />
-                <span asp-validation-for="InventoryItem.UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="InventoryItem.UpdateDate" class="control-label"></label>
                 <input asp-for="InventoryItem.UpdateDate" class="form-control" />
                 <span asp-validation-for="InventoryItem.UpdateDate" class="text-danger"></span>
