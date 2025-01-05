@@ -30,6 +30,8 @@ namespace InventoryApp.Pages.Inventory
         public string KeyboardSort { get; set; }
         public string MouseSort { get; set; }
         public string CurrentSort { get; set; }
+        public int TotalItems { get; set; }
+        public int UserItems { get; set; }
 
         public async Task OnGetAsync(string sortOrder)
         {
@@ -40,6 +42,10 @@ namespace InventoryApp.Pages.Inventory
             KeyboardSort = sortOrder == "Keyboard" ? "keyboard_desc" : "Keyboard";
             MouseSort = sortOrder == "Mouse" ? "mouse_desc" : "Mouse";
             CurrentSort = sortOrder;
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            TotalItems = await _context.InventoryItem.CountAsync();
+            UserItems = await _context.InventoryItem.CountAsync(i => i.UserId == userId);
 
             IQueryable<InventoryItem> inventoryItemsIQ = from i in _context.InventoryItem
                                                          select i;

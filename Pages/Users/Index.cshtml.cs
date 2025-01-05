@@ -24,6 +24,7 @@ namespace InventoryApp.Pages.Users
         }
 
         public IList<IdentityUser> Users { get; set; } = default!;
+        public int TotalUsers { get; set; }
 
         public string IdSort { get; set; }
         public string EmailSort { get; set; }
@@ -78,6 +79,7 @@ namespace InventoryApp.Pages.Users
             }
 
             Users = await users.AsNoTracking().ToListAsync();
+            TotalUsers = Users.Count;
         }
     }
 }
