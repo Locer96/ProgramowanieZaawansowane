@@ -38,6 +38,11 @@
                 @if (Model.CurrentSort == "phoneNumberConfirmed_desc") { <span>&#x25BC;</span> }
                 else if (Model.CurrentSort == "PhoneNumberConfirmed") { <span>&#x25B2;</span> }
             </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.AdminSort">Admin</a>
+                @if (Model.CurrentSort == "admin_desc") { <span>&#x25BC;</span> }
+                else if (Model.CurrentSort == "Admin") { <span>&#x25B2;</span> }
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -58,6 +63,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => user.PhoneNumberConfirmed)
+            </td>
+            <td>
+                @(Model.IsAdmin[user.Id] ? "Yes" : "No")
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@user.Id">Edit</a> |

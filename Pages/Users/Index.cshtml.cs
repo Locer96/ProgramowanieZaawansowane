@@ -31,7 +31,9 @@ namespace InventoryApp.Pages.Users
         public string EmailConfirmedSort { get; set; }
         public string PhoneNumberSort { get; set; }
         public string PhoneNumberConfirmedSort { get; set; }
+        public string AdminSort { get; set; }
         public string CurrentSort { get; set; }
+        public Dictionary<string, bool> IsAdmin { get; set; } = new Dictionary<string, bool>();
 
         public async Task OnGetAsync(string sortOrder)
         {
@@ -40,6 +42,7 @@ namespace InventoryApp.Pages.Users
             EmailConfirmedSort = sortOrder == "EmailConfirmed" ? "emailConfirmed_desc" : "EmailConfirmed";
             PhoneNumberSort = sortOrder == "PhoneNumber" ? "phoneNumber_desc" : "PhoneNumber";
             PhoneNumberConfirmedSort = sortOrder == "PhoneNumberConfirmed" ? "phoneNumberConfirmed_desc" : "PhoneNumberConfirmed";
+            AdminSort = sortOrder == "Admin" ? "admin_desc" : "Admin";
             CurrentSort = sortOrder;
 
             var users = from u in _context.Users select u;
@@ -73,6 +76,12 @@ namespace InventoryApp.Pages.Users
                 case "phoneNumberConfirmed_desc":
                     users = users.OrderByDescending(u => u.PhoneNumberConfirmed);
                     break;
+                case "Admin":
+                    users = users.OrderBy(u => IsAdmin[u.Id]);
+                    break;
+                case "admin_desc":
+                    users = users.OrderByDescending(u => IsAdmin[u.Id]);
+                    break;
                 default:
                     users = users.OrderBy(u => u.Id);
                     break;
@@ -80,6 +89,22 @@ namespace InventoryApp.Pages.Users
 
             Users = await users.AsNoTracking().ToListAsync();
             TotalUsers = Users.Count;
+
+            var adminRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "Administrator");
+            var adminUserIds = new List<string>();
+
+            if (adminRole != null)
+            {
+                adminUserIds = await _context.UserRoles
+                    .Where(ur => ur.RoleId == adminRole.Id)
+                    .Select(ur => ur.UserId)
+                    .ToListAsync();
+            }
+
+            foreach (var user in Users)
+            {
+                IsAdmin[user.Id] = adminUserIds.Contains(user.Id);
+            }
         }
     }
 }
