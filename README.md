@@ -1,20 +1,59 @@
 # InventoryApp
 
-## About project
-This project is an inventory management application that allows users to manage inventory items through a web interface. It uses ASP.NET Core Razor Pages and Entity Framework Core for ORM.
+## Overview
 
-## Authors
-### Rafał Kuczmiński
-### Dominik Latosiński
+Inventory App was created to solve the problem of having to keep track of various IT equipment in an accounting office, which is a branch of a worldwide company. The app is aimed at solving the issue of having to manually keep track of the location and assignment of IT equipment between employees and workstations through Excel files and replacing them with an all-in-one solution that is easier to manage and update.
 
-## Technologies used
-- .NET 8.0
-- ASP.NET Core
-- Entity Framework Core
-- Razor Pages
-- Azure SQL Server
-- Azure Web App
-- Github Actions
+Read further for a more in-depth overview of the software.
+
+## Business Problem
+
+In this specific branch, so far, there was no pre-determined way of keeping track of the hardware portfolio—that means which machine is assigned to which person and which desk has what equipment stored on it. This led to issues where machines could get lost (either due to negligence or malice). To solve this, initially, an Excel file was created, which kept track of the aforementioned issues. However, due to the nature of the office (open space and frequent switching of the machines in cases of issues), the process was very prone to errors and getting outdated quickly.
+Example of Issues and Potential Errors
+
+### A standard procedure in case of hardware or software issues is as follows:
+
+- Employee A gets assigned a machine (1).
+- Employee A encounters issues with his machine.
+- A replacement machine (2) is issued while the IT team handles problems on machine (1).
+- If the solution didn’t require the machine to be wiped of data, machine (1) is returned to the original user, and machine (2) is taken back to storage to be kept as spare.
+- If the solution resulted in wiping data on machine (1), machine (2) is kept and replaces machine (1) as currently assigned.
+
+The process is complicated due to the nature of replacing. Aimed mainly at the convenience of the user and trying to keep his work uninterrupted. If at any point, the IT admin makes an error with the current assignment, the following replacements cascade the problem into a bigger one until a big inventory check is made, confirming everyone's machines and what is being kept in stock.
+
+## Solution
+
+Switching to an SQL database with a user-friendly frontend greatly reduces the risk of errors and allows for easy and hassle-free updates of the current state of things (hardware assignment) on the fly with minimal effort. Switching from Excel to Inventory App reduces the risk of incorrect data by reducing user input on the whole process and replacing it with backend algorithms that update the database for them.
+Key Benefits
+- Efficiency: Reduces manual work and the need to double-check Excel for errors, duplicated data, or incorrect assignments.
+- Visibility: Provides real-time insight into the current equipment assignment.
+- Security & Accountability: Ensures equipment is properly managed and assigned.
+- Scalability: Allows for dynamic changes in the number of user profiles within the system. Addition or removal is quick and easy to do.
+
+## Business Impact
+
+    Cost Saving: Less time is spent on manual tracking of equipment, which opens room for other tasks or handling tickets.
+    Compliance: Is viewed positively in case of internal or external audits.
+    Productivity: Keeping track of equipment allows for faster replacement in case of hardware/software issues.
+
+## Expected Impact
+
+Implementing Inventory App should significantly improve IT asset management efficiency within the company. By replacing manual Excel-based tracking with a centralized system, the app reduces administrative workload, minimizes errors, and enhances visibility into asset assignments. IT support teams will resolve issues faster, employees will receive equipment more efficiently, and overall accountability will increase. This leads to cost savings, improved compliance for audits, and a scalable solution that grows with the company’s needs.
+Three Types of Users (Switch to Technical?)
+
+## Inventory App uses three types of profiles to manage the equipment assignment.
+
+### Regular
+
+A regular user is an employee. This is the basic profile that most users have. It can review their assigned equipment.
+
+### Support
+
+A support profile is given to IT support employees. Their additional rights within the app allow them to edit the records of users to correct potential mistakes within the database.
+
+### Administrator
+
+Administrator accounts have the most rights within the system. Aside from the standard management of users, they can also edit the stock of available machines that can be assigned to users (the type of machines that support can assign to each person as their own).
 
 ## First Launch
 ### Local Development
@@ -22,68 +61,19 @@ This project is an inventory management application that allows users to manage 
 2. Ensure you have the necessary environment variables set up, including `AZURE_SQL_CONNECTIONSTRING`.
 3. Run the application using your preferred IDE or `dotnet run` command.
 4. On the first launch, the application will automatically apply any pending migrations to the database.
-5. An admin account will be created with the following credentials:
-   - **Email**: admin@admin.com
+5. Multiple accounts with roles will be created on start of the application:
+- Admin (Sufixes from 1 to 3)
+   - **Email**: admin1@admin.com
    - **Password**: Admin@123
+- Support (Sufixes from 1 to 3)
+   - **Email**: support1@admin.com
+   - **Password**: Support@123
+- User (Sufixes from 1 to 25)
+   - **Email**: user1@admin.com
+   - **Password**: User@123
 6. Use the admin account to log in and access administrator-only features.
-7. To test non-admin functionality, create additional user accounts through the registration page.
+7. Use the support account to log in and access support-only features.
+8. Use the user account to log in and access authentication-only features.
+9. Register other account to test registration
 
-## Project Structure
-![Database Chart](assets/images/inventoryapp20241127200715-database-db.png)
-This project implements MVC (Model-View-Controller) using ASP.NET Core Razor Pages:
-- **Models** are defined in the *Models* directory, such as `InventoryItem`.
-- **Views** are defined in the *Pages* directory, such as `Index`, `Create`, and `Edit`.
-- **Controllers** are implemented as Razor Page models in the *Pages* directory, such as `Index.cshtml.cs`, `Create.cshtml.cs`, and `Edit.cshtml.cs`.
-
-Additionally, the project uses ASP.NET Core Identity for authentication and authorization.
-
-## Object-Relational Mapping
-The project extensively uses Object-Relational Mapping (ORM) with Entity Framework Core, following the Code First approach.
-
-## Field Restrictions
-### AspNetUsers Fields
-- **Email**: Must be a valid email address.
-- **Password**: Must be at least 6 characters long and max 100 characters long, have at least one non alphanumeric character, have at least one lowercase ('a'-'z') and have at least one uppercase ('A'-'Z').
-
-### InventoryItem Fields
-- **Id**: Auto-incremented integer.
-- **UserId**: Must be a valid user ID, maximum length 450 characters. Only settable by backend.
-- **UpdateDate**: Must be a valid date.
-- **PC**: Optional field.
-- **Display**: Optional field.
-- **Keyboard**: Optional field.
-- **Mouse**: Optional field.
-
-### Migrations
-- Migration files such as `20241127175442_AddInventory.cs` and `00000000000000_CreateIdentitySchema.cs` show the use of migrations to manage the database schema. These migrations are generated based on the data models and the database context.
-- The file `ApplicationDbContextModelSnapshot.cs` contains a snapshot of the model, used to track changes in the data model.
-
-### Database Connection Configuration
-- The file `Program.cs` includes the configuration for connecting to a SQL Server database using `UseSqlServer`, indicating the use of Entity Framework Core for database interactions. The connection string is retrieved from the environment variable `AZURE_SQL_CONNECTIONSTRING`.
-
-### CRUD Operations
-- Razor Pages such as `Create`, `Edit`, `Delete`, and `Details` contain CRUD (Create, Read, Update, Delete) operations on the `InventoryItem` and `AspNetUsers` model using the database context.
-- Pages accessible only to users with the "Administrator" role handle user management tasks such as creating, editing, and deleting user accounts. These pages ensure that only admin can perform these actions.
-
-## User Roles
-### User System Components
-- **Role Management**: Roles such as "Administrator" are defined and managed using ASP.NET Core Identity. The `Program.cs` file includes code to create the "Administrator" role if it does not exist.
-- **User Management**: Users are managed using ASP.NET Core Identity. The `Program.cs` file includes code to create an admin user with the email "admin@admin.com" and assign the "Administrator" role.
-- **Authorization Policies**: Authorization policies are defined to restrict access to certain parts of the application. For example, the policy "RequireAdministratorRole" is defined in `Program.cs` to restrict access to administrator-only pages.
-
-## Page Access
-- **Inventory Pages**: Accessible to all registered users. These pages allow users to view, create, edit, and delete inventory items.
-- **User Management Pages**: Accessible only to users with the "Administrator" role. These pages allow administrators to manage user accounts, including creating, editing, and deleting users.
-
-## Aggregation, Filters, and Sorting
-### Aggregation
-- The total number of inventory items and the number of items belonging to the logged-in user are displayed on the inventory index page.
-
-### Filters
-- Users can filter inventory items to show only their own items or all items with one press of a button. This feature was added for personalization as well as testing purposes.
-
-### Sorting
-- Inventory items can be sorted by various fields such as UserId, UpdateDate, PC, Display, Keyboard, and Mouse.
-- Administrators can sort other users by fields such as Id, Email, EmailConfirmed, PhoneNumber, PhoneNumberConfirmed, and Admin status.
-
-
+More information can be found in `DOCS.md`
