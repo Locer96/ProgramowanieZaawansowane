@@ -1,0 +1,142 @@
+﻿@model IEnumerable<InventoryApp.Models.WorkStation>
+
+@{
+    ViewData["Title"] = "Index";
+    string currentSort = ViewData["CurrentSort"] as string;
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["WorkStationNumberSortParm"]">
+                    WorkStation Number
+                    @if (currentSort == "workstation_number_desc")
+                    {
+                        <span>&#9660;</span>
+                    }
+                    else if (currentSort == "")
+                    {
+                        <span>&#9650;</span>
+                    }
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["UserEmailSortParm"]">
+                    User Email
+                    @if (currentSort == "user_email_desc")
+                    {
+                        <span>&#9660;</span>
+                    }
+                    else if (currentSort == "user_email")
+                    {
+                        <span>&#9650;</span>
+                    }
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["PCSerialNumberSortParm"]">
+                    PC Serial Number
+                    @if (currentSort == "pc_serial_number_desc")
+                    {
+                        <span>&#9660;</span>
+                    }
+                    else if (currentSort == "pc_serial_number")
+                    {
+                        <span>&#9650;</span>
+                    }
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["PCSortParm"]">
+                    PC
+                    @if (currentSort == "pc_desc")
+                    {
+                        <span>&#9660;</span>
+                    }
+                    else if (currentSort == "pc")
+                    {
+                        <span>&#9650;</span>
+                    }
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DisplaySortParm"]">
+                    Display
+                    @if (currentSort == "display_desc")
+                    {
+                        <span>&#9660;</span>
+                    }
+                    else if (currentSort == "display")
+                    {
+                        <span>&#9650;</span>
+                    }
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["KeyboardSortParm"]">
+                    Keyboard
+                    @if (currentSort == "keyboard_desc")
+                    {
+                        <span>&#9660;</span>
+                    }
+                    else if (currentSort == "keyboard")
+                    {
+                        <span>&#9650;</span>
+                    }
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["MouseSortParm"]">
+                    Mouse
+                    @if (currentSort == "mouse_desc")
+                    {
+                        <span>&#9660;</span>
+                    }
+                    else if (currentSort == "mouse")
+                    {
+                        <span>&#9650;</span>
+                    }
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkStationNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserWorkStation.User.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PCSerialNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Display)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Keyboard)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mouse)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

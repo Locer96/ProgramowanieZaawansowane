@@ -1,0 +1,108 @@
+﻿@model InventoryApp.Models.WorkStation
+@inject InventoryApp.Data.ApplicationDbContext _context
+
+@{
+    ViewData["Title"] = "Create WorkStation";
+    var pcModels = _context.DeviceModels.Where(dm => dm.Type == "PC").ToList();
+    var displayModels = _context.DeviceModels.Where(dm => dm.Type == "Display").ToList();
+    var userEmails = _context.Users.Select(u => u.Email).Distinct().OrderBy(email => email).ToList();
+}
+
+<h1>Create WorkStation</h1>
+
+<h4>WorkStation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="WorkStationNumber" class="control-label"></label>
+                <input asp-for="WorkStationNumber" class="form-control" />
+                <span asp-validation-for="WorkStationNumber" class="text-danger"></span>
+                <small class="form-text text-muted">Required. Max length: 20 characters. Must be unique.</small>
+                <small class="form-text text-muted">Characters used: <span id="workStationNumberCount">0</span>/20</small>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserWorkStation.User.Email" class="control-label">User Email</label>
+                <select asp-for="UserWorkStation.User.Email" class="form-control">
+                    <option value="">None</option>
+                    @foreach (var email in userEmails)
+                    {
+                        <option value="@email">@email</option>
+                    }
+                </select>
+                <span asp-validation-for="UserWorkStation.User.Email" class="text-danger"></span>
+                <small class="form-text text-muted">Each user can only be assigned to one workstation.</small>
+            </div>
+            <div class="form-group">
+                <label asp-for="PCSerialNumber" class="control-label"></label>
+                <input asp-for="PCSerialNumber" class="form-control" />
+                <span asp-validation-for="PCSerialNumber" class="text-danger"></span>
+                <small class="form-text text-muted">Max length: 100 characters.</small>
+                <small class="form-text text-muted">Characters used: <span id="pcSerialNumberCount">0</span>/100</small>
+            </div>
+            <div class="form-group">
+                <label asp-for="PC" class="control-label"></label>
+                <select asp-for="PC" class="form-control">
+                    @foreach (var pc in pcModels)
+                    {
+                        <option value="@pc.Name">@pc.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="PC" class="text-danger"></span>
+                <small class="form-text text-muted">Max length: 100 characters.</small>
+            </div>
+            <div class="form-group">
+                <label asp-for="Display" class="control-label"></label>
+                <select asp-for="Display" class="form-control">
+                    @foreach (var display in displayModels)
+                    {
+                        <option value="@display.Name">@display.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="Display" class="text-danger"></span>
+                <small class="form-text text-muted">Max length: 100 characters.</small>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Keyboard" /> @Html.DisplayNameFor(model => model.Keyboard)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Mouse" /> @Html.DisplayNameFor(model => model.Mouse)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdditionalInfo" class="control-label"></label>
+                <input asp-for="AdditionalInfo" class="form-control" />
+                <span asp-validation-for="AdditionalInfo" class="text-danger"></span>
+                <small class="form-text text-muted">Max length: 400 characters.</small>
+                <small class="form-text text-muted">Characters used: <span id="additionalInfoCount">0</span>/400</small>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.getElementById('WorkStationNumber').addEventListener('input', function () {
+            document.getElementById('workStationNumberCount').innerText = this.value.length;
+        });
+        document.getElementById('PCSerialNumber').addEventListener('input', function () {
+            document.getElementById('pcSerialNumberCount').innerText = this.value.length;
+        });
+        document.getElementById('AdditionalInfo').addEventListener('input', function () {
+            document.getElementById('additionalInfoCount').innerText = this.value.length;
+        });
+    </script>
+}

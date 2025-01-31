@@ -1,0 +1,78 @@
+@model IEnumerable<InventoryApp.Models.DeviceModel>
+
+@{
+    ViewData["Title"] = "Device Models";
+    string currentSort = ViewData["CurrentSort"] as string;
+}
+
+<h1>Device Models</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">
+                    Name
+                    @if (currentSort == "name_desc")
+                    {
+                        <span>&#9660;</span>
+                    }
+                    else if (currentSort == "")
+                    {
+                        <span>&#9650;</span>
+                    }
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["TypeSortParm"]">
+                    Type
+                    @if (currentSort == "type_desc")
+                    {
+                        <span>&#9660;</span>
+                    }
+                    else if (currentSort == "type")
+                    {
+                        <span>&#9650;</span>
+                    }
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["AssignedWorkStationsCountSortParm"]">
+                    Assigned WorkStations Count
+                    @if (currentSort == "assigned_workstations_count_desc")
+                    {
+                        <span>&#9660;</span>
+                    }
+                    else if (currentSort == "assigned_workstations_count")
+                    {
+                        <span>&#9650;</span>
+                    }
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssignedWorkStationsCount)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
