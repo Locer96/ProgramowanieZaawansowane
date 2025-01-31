@@ -1,5 +1,9 @@
 # InventoryApp
 
+## Authors
+### Rafał Kuczmiński
+### Dominik Latosiński
+
 ## Overview
 
 Inventory App was created to solve the problem of having to keep track of various IT equipment in an accounting office, which is a branch of a worldwide company. The app is aimed at solving the issue of having to manually keep track of the location and assignment of IT equipment between employees and workstations through Excel files and replacing them with an all-in-one solution that is easier to manage and update.
